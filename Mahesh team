@@ -1,0 +1,191 @@
+#include<reg52.h>
+
+#include<post.h>
+
+#include<lcd4.h>
+
+#include<serial.h>
+
+#include<gsm.h>
+
+sbit hum = P1 ^ 0;      // Humidity
+
+sbit moist = P1 ^ 1;      // Moisture
+
+sbit m1 = P0 ^ 0;   // ROBOT MOTORS
+
+sbit m2 = P0 ^ 1;
+
+sbit m3 = P0 ^ 2;
+
+sbit m4 = P0 ^ 3;
+
+sbit buz = P0 ^ 5;
+
+void main()
+
+{
+
+  unsigned char K;
+
+  hum = 1;
+
+  moist = 1;
+
+  m1 = m3 = 0;
+
+  m2 = m4 = 0;
+
+  serialinit();
+
+  initlcd();
+
+  stringlcd(0x80, "WELCOME - ENVRON");
+
+  stringlcd(0xC0, "QUALITY MONITOR");
+
+  post(400);
+
+  gsminit();
+
+  while (1)
+
+  {
+
+    K = rx();
+
+    if (hum == 0)
+
+    {
+
+      stringlcd(0x80, "HUMIDITY INCRESD");
+
+      m1 = m3 = 0;
+
+      m2 = m4 = 1;
+
+      post(400);
+
+	  txs("AT+CMGS=\"9581012012\"\r\n");      post(1000);
+
+      txs("HUMIDITY INCREASEDr\n");
+
+    }
+
+    if (moist == 0)
+
+    {
+
+      stringlcd(0x80, "MOISTURE INCRESD");
+
+      m1 = m3 = 0;
+
+      m2 = m4 = 0;
+
+      post(400);
+
+	  txs("AT+CMGS=\"9581012012\"\r\n");
+
+      post(1000);
+
+      txs("MOISTURE INCREASEDr\n");
+
+    }
+
+    if (K == 'F')
+
+    {
+
+      stringlcd(0x80, "FRONT DIREC");
+
+      m1 = m3 = 1;
+
+      m2 = m4 = 0;
+
+      post(400);
+
+	  txs("AT+CMGS=\"9581012012\"\r\n");
+
+      post(1000);
+
+      txs("MOVING FRONTr\n");
+
+    }
+
+    else if (K == 'B')
+
+    {
+
+      stringlcd(0x80, "BACK DIREC");
+
+      m1 = m3 = 0;
+
+      m2 = m4 = 1;
+
+      post(400);
+
+	  txs("AT+CMGS=\"9581012012\"\r\n");
+
+      post(1000);
+
+      txs("MOVING BACKr\n");
+
+    }
+
+    else if (K == 'L')
+
+    {
+
+      stringlcd(0x80, "LEFT DIREC");
+
+      m1 = 0;
+
+      m2 = m4 = 0;
+
+      m3 = 1;
+
+      post(400);
+
+	  txs("AT+CMGS=\"9581012012\"\r\n");
+
+      post(1000);
+
+      txs("MOVING LEFTr\n");
+
+    }
+
+    else if (K == 'R')
+
+    {
+
+      stringlcd(0x80, "RIGHT DIREC");
+
+      m1 = 1;
+
+      m2 = m4 = 0;
+
+      m3 = 0;
+
+      post(400);
+
+	  txs("AT+CMGS=\"9581012012\"\r\n");
+
+      post(1000);
+
+      txs("MOVING RIGHTr\n");
+
+    }
+
+  }
+
+}400);
+
+	  txs("AT+CMGS=\"9581012012\"\r\n");
+
+      post(1000);
+
+      txs("MOISTURE INCREASEDr\n");
+
+    }
+
+ 
